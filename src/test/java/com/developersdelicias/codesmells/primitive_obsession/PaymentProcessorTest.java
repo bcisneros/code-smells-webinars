@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -97,6 +96,23 @@ public class PaymentProcessorTest {
 		Mockito.verify(processor).process(creditCardPayment, BigDecimal.valueOf(350.0d));
 		Mockito.verify(processor).process(couponPayment, BigDecimal.valueOf(140.0d));
 		Mockito.verify(processor).process(cashPayment, BigDecimal.valueOf(10.0d));
+	}
+
+	@Test
+	public void throws_exception_when_remaining_is_greater_than_zero() throws PaymentException {
+		expectPaymentExceptionWithMessage("There is a remaining of $40.00 to be covered");
+
+		Payment creditCardPayment = Payment.of(10.0d, "Credit Card");
+		Payment couponPayment = Payment.of(20.0d, "Coupon");
+		Payment cashPayment = Payment.of(30.0d, "Cash");
+
+		List<Payment> payments = asList(
+				creditCardPayment,
+				couponPayment,
+				cashPayment
+		);
+
+		processor.process(payments, 100.0d);
 	}
 
 	@SuppressWarnings("unused")

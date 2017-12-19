@@ -1,11 +1,12 @@
 package com.developersdelicias.codesmells.primitive_obsession;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
-public class PaymentProcessor {
+class PaymentProcessor {
 
-	public void process(List<Payment> payments, Double totalAmount) throws PaymentException {
+	void process(List<Payment> payments, Double totalAmount) throws PaymentException {
 
 		BigDecimal amountToProcess = PaymentUtil.getSafeAmount(totalAmount);
 		BigDecimal zeroAmount = new BigDecimal("0");
@@ -28,6 +29,12 @@ public class PaymentProcessor {
 			if (amountToProcess.compareTo(zeroAmount) <= 0) {
 				break;
 			}
+		}
+
+		if (amountToProcess.compareTo(zeroAmount) > 0) {
+			throw new PaymentException(String.format("There is a remaining of $%s to be covered",
+					new DecimalFormat("0.00").format(amountToProcess.doubleValue())
+			));
 		}
 	}
 
