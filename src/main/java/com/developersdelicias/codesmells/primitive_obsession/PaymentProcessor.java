@@ -19,7 +19,14 @@ public class PaymentProcessor {
 		}
 
 		for (Payment payment: payments) {
-			process(payment, PaymentUtil.getSafeAmount(payment.amount()));
+			BigDecimal amount = PaymentUtil.getSafeAmount(payment.amount());
+			process(payment, amount);
+
+			amountToProcess = amountToProcess.subtract(amount);
+
+			if (amountToProcess.compareTo(zeroAmount) <= 0) {
+				break;
+			}
 		}
 	}
 

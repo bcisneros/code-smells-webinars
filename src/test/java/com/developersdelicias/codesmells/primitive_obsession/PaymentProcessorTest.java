@@ -63,6 +63,24 @@ public class PaymentProcessorTest {
 		Mockito.verify(processor).process(cashPayment, BigDecimal.valueOf(25.0d));
 	}
 
+	@Test
+	public void just_process_payments_when_total_amount_is_pending_to_cover() throws PaymentException {
+		Payment creditCardPayment = Payment.of(200.0d, "Credit Card");
+		Payment couponPayment = Payment.of(100.0d, "Coupon");
+		Payment cashPayment = Payment.of(25.0d, "Cash");
+
+		List<Payment> payments = asList(
+				creditCardPayment,
+				couponPayment,
+				cashPayment
+		);
+
+		processor.process(payments, 300.0d);
+		Mockito.verify(processor).process(creditCardPayment, BigDecimal.valueOf(200.0d));
+		Mockito.verify(processor).process(couponPayment, BigDecimal.valueOf(100.0d));
+		Mockito.verify(processor, Mockito.never()).process(cashPayment, BigDecimal.valueOf(25.0d));
+	}
+
 	@SuppressWarnings("unused")
 	private Collection<Double> invalidTotalAmounts() {
 		return asList(ZERO_TOTAL_AMOUNT, NEGATIVE_TOTAL_AMOUNT, NULL_TOTAL_AMOUNT);
