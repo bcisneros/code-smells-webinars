@@ -20,7 +20,8 @@ public class PaymentProcessor {
 
 		for (Payment payment: payments) {
 			BigDecimal amount = PaymentUtil.getSafeAmount(payment.amount());
-			process(payment, amount);
+
+			process(payment, amount.compareTo(amountToProcess) > 0 ? amountToProcess : amount);
 
 			amountToProcess = amountToProcess.subtract(amount);
 

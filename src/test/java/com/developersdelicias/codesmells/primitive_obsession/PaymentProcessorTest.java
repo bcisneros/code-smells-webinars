@@ -81,6 +81,24 @@ public class PaymentProcessorTest {
 		Mockito.verify(processor, Mockito.never()).process(cashPayment, BigDecimal.valueOf(25.0d));
 	}
 
+	@Test
+	public void apply_only_remaining_amount_for_payments() throws PaymentException {
+		Payment creditCardPayment = Payment.of(350.0d, "Credit Card");
+		Payment couponPayment = Payment.of(140.0d, "Coupon");
+		Payment cashPayment = Payment.of(25.0d, "Cash");
+
+		List<Payment> payments = asList(
+				creditCardPayment,
+				couponPayment,
+				cashPayment
+		);
+
+		processor.process(payments, 500.0d);
+		Mockito.verify(processor).process(creditCardPayment, BigDecimal.valueOf(350.0d));
+		Mockito.verify(processor).process(couponPayment, BigDecimal.valueOf(140.0d));
+		Mockito.verify(processor).process(cashPayment, BigDecimal.valueOf(10.0d));
+	}
+
 	@SuppressWarnings("unused")
 	private Collection<Double> invalidTotalAmounts() {
 		return asList(ZERO_TOTAL_AMOUNT, NEGATIVE_TOTAL_AMOUNT, NULL_TOTAL_AMOUNT);
