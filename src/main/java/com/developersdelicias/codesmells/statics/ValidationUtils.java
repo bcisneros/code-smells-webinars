@@ -109,10 +109,10 @@ public class ValidationUtils {
 		return false;
 	}
 
-	private static boolean validarDiccionario(String cadena) {
+	static boolean validarDiccionario(String cadena) {
 		String[] secuencias = {"banorte", "seguros", "pensiones", "banorteseguros", "banortepensiones", "segurosbanorte", "pensionesbanorte", "seguros&pensionesbanorte", "segurosypensionesbanorte", "sypbanorte", "s&pbanorte", "banortebap", "bancobanorte", "banortebanco", "bancofuerte", "banco", "qwerty", "azerty"};
 		for (int i = 0; i < secuencias.length; i++) {
-			int search = cadena.indexOf(secuencias[i].toUpperCase());
+			int search = cadena.toUpperCase().indexOf(secuencias[i].toUpperCase());
 			if (search != -1) {
 				return true;
 			}

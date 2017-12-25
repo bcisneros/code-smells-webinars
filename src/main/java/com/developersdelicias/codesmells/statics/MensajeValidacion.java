@@ -31,4 +31,20 @@ public class MensajeValidacion {
 		return "MensajeValidacion{" + "mensaje=" + mensaje + ", valido=" + valido + '}';
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		MensajeValidacion that = (MensajeValidacion) o;
+
+		return valido == that.valido && (mensaje != null ? mensaje.equals(that.mensaje) : that.mensaje == null);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = mensaje != null ? mensaje.hashCode() : 0;
+		result = 31 * result + (valido ? 1 : 0);
+		return result;
+	}
 }
