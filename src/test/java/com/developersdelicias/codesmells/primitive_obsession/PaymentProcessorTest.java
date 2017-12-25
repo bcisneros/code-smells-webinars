@@ -75,6 +75,7 @@ public class PaymentProcessorTest {
 		);
 
 		processor.process(payments, 300.0d);
+
 		Mockito.verify(processor).process(creditCardPayment, BigDecimal.valueOf(200.0d));
 		Mockito.verify(processor).process(couponPayment, BigDecimal.valueOf(100.0d));
 		Mockito.verify(processor, Mockito.never()).process(cashPayment, BigDecimal.valueOf(25.0d));
@@ -93,6 +94,7 @@ public class PaymentProcessorTest {
 		);
 
 		processor.process(payments, 500.0d);
+
 		Mockito.verify(processor).process(creditCardPayment, BigDecimal.valueOf(350.0d));
 		Mockito.verify(processor).process(couponPayment, BigDecimal.valueOf(140.0d));
 		Mockito.verify(processor).process(cashPayment, BigDecimal.valueOf(10.0d));
