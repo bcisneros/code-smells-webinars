@@ -46,11 +46,32 @@ public class ValidationUtilsTest {
 	}
 
 	@Test
-	@Parameters({"banorte", "seguros", "pensiones", "banorteseguros", "banortepensiones", "segurosbanorte", "pensionesbanorte", "seguros&pensionesbanorte", "segurosypensionesbanorte", "sypbanorte", "s&pbanorte", "banortebap", "bancobanorte", "banortebanco", "bancofuerte", "banco", "qwerty", "azerty"})
+	@Parameters({"banorte", "seguros", "pensiones", "banorteseguros", "banortepensiones", "segurosbanorte",
+			"pensionesbanorte", "seguros&pensionesbanorte", "segurosypensionesbanorte", "sypbanorte", "s&pbanorte",
+			"banortebap", "bancobanorte", "banortebanco", "bancofuerte", "banco", "qwerty", "azerty"})
 	public void should_not_allow_passwords_using_reserved_words(String reservedWord) {
 		assertThat(
 				validate(reservedWord),
 				is(anInvalidPasswordResultWithMessage("El Password no puede contener palabras reservadas o mas"))
+		);
+	}
+
+	@Test
+	@Parameters({"Aa1$", "a1$b2%c3@", "A1$B2%C3@", "ad$bf%cb@", "A12b24c37", "A12b24c37A12b24c37"})
+	public void should_validate_password_complexity(String password) {
+		assertThat(
+				validate(password),
+				is(anInvalidPasswordResultWithMessage(
+						"La contraseña debe de tener por lo menos una letra Mayúscula, una letra minúscula, un número, un caracter especial y minimo 8 caracteres."))
+		);
+	}
+
+	@Test
+	@Parameters({"A1$2b24c37", "Benja12#test"})
+	public void should_allow_valid_passwords(String password) {
+		assertThat(
+				validate(password),
+				is(new MensajeValidacion("Contraseña Valida", true))
 		);
 	}
 

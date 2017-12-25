@@ -21,11 +21,10 @@ public class ValidationUtils {
 		} else if(validarDiccionario(password)){
 			return new MensajeValidacion("El Password no puede contener palabras reservadas o mas", false);
 		} else if (!mat.matches()) {
-			return new MensajeValidacion("La contraseña debe de tener por lo menos una letra Mayúscula, una letra minúscula, un número, un caracter especial "
+			return new MensajeValidacion("La contraseña debe de tener por lo menos una letra Mayúscula, una letra minúscula, un número, un caracter especial"
 					+ " y minimo " + length + " caracteres.", false);
-		} else if(passLenght < maxLenght){
-			return new MensajeValidacion("El Password por lo menos debe de tener " + maxLenght + " caracteres.", false);
-		} else {
+		}
+		else {
 			return new MensajeValidacion("Contraseña Valida", true);
 		}
 	}
