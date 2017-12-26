@@ -67,6 +67,33 @@ public class ValidationUtilsTest {
 	}
 
 	@Test
+	public void should_validate_passwords_withLenght_less_than_passed_length() {
+		assertThat(
+				ValidationUtils.validarPassword("Aa1$", "5"),
+				is(anInvalidPasswordResultWithMessage(
+						"La contraseña debe de tener por lo menos una letra Mayúscula, una letra minúscula, un número, un caracter especial y minimo 5 caracteres."))
+		);
+	}
+
+	@Test
+	public void should_validate_passwords_withLenght_less_than_passed_length_2() {
+		assertThat(
+				ValidationUtils.validarPassword("Aa1$a", "6"),
+				is(anInvalidPasswordResultWithMessage(
+						"La contraseña debe de tener por lo menos una letra Mayúscula, una letra minúscula, un número, un caracter especial y minimo 6 caracteres."))
+		);
+	}
+
+	@Test
+	public void should_validate_passwords_withLenght_less_than_passed_length_3() {
+		assertThat(
+				ValidationUtils.validarPassword("Aa1$af", "7"),
+				is(anInvalidPasswordResultWithMessage(
+						"La contraseña debe de tener por lo menos una letra Mayúscula, una letra minúscula, un número, un caracter especial y minimo 7 caracteres."))
+		);
+	}
+
+	@Test
 	@Parameters({"A1$2b24c37", "Benja12#test"})
 	public void should_allow_valid_passwords(String password) {
 		assertThat(
@@ -79,7 +106,7 @@ public class ValidationUtilsTest {
 	public void should_validate_against_dictionary() {
 		assertThat(
 				"Does not find exactly words in dictionary",
-				ValidationUtils.validarDiccionario("banorte"),
+				ValidationUtils.estaContenidoEnElDiccionario("banorte"),
 				is(true)
 		);
 	}
@@ -88,7 +115,7 @@ public class ValidationUtilsTest {
 	public void should_validate_against_dictionary_2() {
 		assertThat(
 				"Does not find containing words in dictionary",
-				ValidationUtils.validarDiccionario("banorte2"),
+				ValidationUtils.estaContenidoEnElDiccionario("banorte2"),
 				is(true)
 		);
 	}
@@ -97,7 +124,7 @@ public class ValidationUtilsTest {
 	public void should_validate_against_dictionary_3() {
 		assertThat(
 				"Does not find containing (uppercase) words in dictionary",
-				ValidationUtils.validarDiccionario("BANORTE2"),
+				ValidationUtils.estaContenidoEnElDiccionario("BANORTE2"),
 				is(true)
 		);
 	}
@@ -106,7 +133,7 @@ public class ValidationUtilsTest {
 	public void should_validate_against_dictionary_4() {
 		assertThat(
 				"Does not find containing (uppercase) words in dictionary",
-				ValidationUtils.validarDiccionario("Banorte2"),
+				ValidationUtils.estaContenidoEnElDiccionario("Banorte2"),
 				is(true)
 		);
 	}

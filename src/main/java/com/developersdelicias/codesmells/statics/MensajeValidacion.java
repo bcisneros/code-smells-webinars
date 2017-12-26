@@ -47,4 +47,8 @@ public class MensajeValidacion {
 		result = 31 * result + (valido ? 1 : 0);
 		return result;
 	}
+
+	public static MensajeValidacion invalidWithMessage(String message) {
+		return new MensajeValidacion(message, false);
+	}
 }
